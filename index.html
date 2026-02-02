@@ -2,349 +2,363 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Si-Kota | Pengaduan & Dashboard Warga</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Si-Kota | Layanan Pengaduan Multi-Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         .blue-gradient { background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); }
         .page-section { display: none; }
         .active { display: block; }
-        .status-badge { font-size: 10px; font-weight: 900; text-transform: uppercase; padding: 4px 12px; border-radius: 9999px; }
-        .chat-bubble { border-radius: 18px; padding: 10px 15px; margin-bottom: 8px; max-width: 85%; font-size: 13px; line-height: 1.4; }
-        .admin-chat { background: #dbeafe; color: #1e40af; align-self: flex-start; border-bottom-left-radius: 4px; }
-        .user-chat { background: #3b82f6; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+        .status-badge { font-size: 10px; font-weight: 800; text-transform: uppercase; padding: 4px 12px; border-radius: 9999px; }
+        .chat-bubble { border-radius: 18px; padding: 10px 14px; margin-bottom: 8px; max-width: 80%; font-size: 13px; line-height: 1.5; }
+        .admin-chat { background: #eff6ff; color: #1e40af; align-self: flex-start; border-bottom-left-radius: 4px; border: 1px solid #dbeafe; }
+        .user-chat { background: #2563eb; color: white; align-self: flex-end; border-bottom-right-radius: 4px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); }
+        /* Animasi transisi antar halaman */
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
-<body class="bg-slate-50 font-sans text-gray-800">
+<body class="bg-slate-50 font-sans text-gray-800 antialiased">
 
-    <nav class="bg-white shadow-sm sticky top-0 z-50 border-b border-blue-100">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2 font-black text-blue-700 text-2xl cursor-pointer" onclick="showPage('landingPage')">
+    <nav class="bg-white/90 backdrop-blur-md shadow-sm sticky top-0 z-50 border-b border-blue-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 md:py-4 flex justify-between items-center">
+            <div class="flex items-center gap-2 font-black text-blue-700 text-xl md:text-2xl cursor-pointer tracking-tighter" onclick="showPage('landingPage')">
                 <i class="fas fa-city"></i> SI-KOTA
             </div>
-            <div id="navButtons" class="flex gap-3 items-center"></div>
+            <div id="navButtons" class="flex gap-2 items-center"></div>
         </div>
     </nav>
 
-    <section id="landingPage" class="page-section active">
-        <div class="blue-gradient text-white py-24 px-6 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight">Suara Anda, Masa Depan Kota</h1>
-            <p class="text-blue-100 max-w-2xl mx-auto mb-10 text-lg">Sistem informasi pengaduan fasilitas kota terpadu dan transparan.</p>
-            
-            <div class="flex flex-wrap justify-center gap-4">
-                <div id="mainActionButtons" class="flex flex-wrap gap-4 justify-center"></div>
-                
-                <button onclick="showPage('loginAdminPage')" class="bg-blue-900/40 border border-blue-300 px-6 py-4 rounded-2xl font-bold hover:bg-blue-800 transition-all text-white">
-                    Panel Petugas
-                </button>
+    <section id="landingPage" class="page-section active fade-in">
+        <div class="blue-gradient text-white py-20 md:py-32 lg:py-40 px-6 text-center">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black mb-6 leading-tight drop-shadow-md">
+                    Suara Anda,<br class="hidden sm:block"> Perubahan Bagi Kota
+                </h1>
+                <p class="text-blue-100 mb-10 text-sm sm:text-base md:text-xl lg:text-2xl font-light px-4">
+                    Sistem informasi pengaduan terpadu yang menghubungkan warga dan petugas secara realtime.
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <div id="mainActionButtons" class="w-full sm:w-auto flex flex-col sm:flex-row gap-4"></div>
+                    <button onclick="showPage('loginAdminPage')" class="w-full sm:w-auto bg-white/10 backdrop-blur-sm border border-white/30 px-8 py-4 rounded-2xl font-bold hover:bg-white/20 transition-all text-sm md:text-base">
+                        Portal Petugas
+                    </button>
+                </div>
             </div>
         </div>
         
-        <div class="max-w-6xl mx-auto px-6 -mt-12">
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div class="bg-white p-8 rounded-3xl shadow-xl border-b-8 border-blue-500 text-center">
-                    <div class="text-gray-400 text-xs font-black uppercase mb-2">Aduan Masuk</div>
-                    <div id="statTotal" class="text-5xl font-black text-blue-700">0</div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 md:gap-8">
+                <div class="bg-white p-6 md:p-10 rounded-3xl shadow-xl border-b-8 border-blue-600 transform hover:-translate-y-1 transition-all">
+                    <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Aduan Masuk</p>
+                    <p id="statTotal" class="text-3xl md:text-5xl lg:text-6xl font-black text-blue-700">0</p>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-xl border-b-8 border-yellow-400 text-center">
-                    <div class="text-gray-400 text-xs font-black uppercase mb-2">Dalam Proses</div>
-                    <div id="statWait" class="text-5xl font-black text-yellow-500">0</div>
+                <div class="bg-white p-6 md:p-10 rounded-3xl shadow-xl border-b-8 border-yellow-400 transform hover:-translate-y-1 transition-all">
+                    <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Diproses</p>
+                    <p id="statWait" class="text-3xl md:text-5xl lg:text-6xl font-black text-yellow-500">0</p>
                 </div>
-                <div class="bg-white p-8 rounded-3xl shadow-xl border-b-8 border-green-500 text-center">
-                    <div class="text-gray-400 text-xs font-black uppercase mb-2">Terselesaikan</div>
-                    <div id="statDone" class="text-5xl font-black text-green-600">0</div>
+                <div class="bg-white p-6 md:p-10 rounded-3xl shadow-xl border-b-8 border-green-500 transform hover:-translate-y-1 transition-all">
+                    <p class="text-gray-400 text-xs md:text-sm font-bold uppercase tracking-widest mb-2">Selesai</p>
+                    <p id="statDone" class="text-3xl md:text-5xl lg:text-6xl font-black text-green-600">0</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="loginUserPage" class="page-section py-20 px-6">
-        <div class="max-w-md mx-auto bg-white p-10 rounded-3xl shadow-2xl">
-            <h2 class="text-3xl font-black text-blue-900 mb-8 text-center">Masuk Sebagai Warga</h2>
-            <input type="text" id="userNameLogin" placeholder="Masukkan Nama Lengkap" class="w-full p-4 bg-gray-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 mb-4 font-medium">
-            <button onclick="handleUserLogin()" class="w-full blue-gradient text-white py-4 rounded-2xl font-bold shadow-lg">Login ke Dashboard</button>
-            <button onclick="showPage('landingPage')" class="w-full mt-4 text-gray-400 text-sm font-bold uppercase tracking-widest">Kembali</button>
+    <section id="loginUserPage" class="page-section py-20 px-4 fade-in">
+        <div class="max-w-md mx-auto bg-white p-8 md:p-12 rounded-[2.5rem] shadow-2xl border border-blue-50">
+            <h2 class="text-2xl md:text-3xl font-black text-blue-900 mb-8 text-center tracking-tight">Masuk Sebagai Warga</h2>
+            <div class="space-y-5">
+                <div class="space-y-1">
+                    <label class="text-xs font-bold text-gray-400 ml-1">NAMA LENGKAP</label>
+                    <input type="text" id="userNameLogin" placeholder="Contoh: Zacky Akhmad" class="w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:ring-2 focus:ring-blue-500 transition-all font-medium">
+                </div>
+                <button onclick="handleUserLogin()" class="w-full blue-gradient text-white py-4 rounded-2xl font-black shadow-lg shadow-blue-200 hover:opacity-90 transition-all">MASUK DASHBOARD</button>
+                <button onclick="showPage('landingPage')" class="w-full text-gray-400 text-xs font-bold uppercase tracking-widest pt-2">Kembali ke Beranda</button>
+            </div>
         </div>
     </section>
 
-    <section id="userDashboard" class="page-section py-10 px-6 max-w-4xl mx-auto">
-        <div class="flex justify-between items-center mb-8">
+    <section id="userDashboard" class="page-section py-10 px-4 max-w-5xl mx-auto fade-in">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-10 gap-6">
             <div>
-                <h2 class="text-2xl font-bold text-blue-900 tracking-tight">Dashboard Pengguna</h2>
-                <p class="text-gray-400 text-sm font-medium">Pantau laporan dan komunikasi dengan petugas</p>
+                <h2 class="text-2xl md:text-4xl font-black text-blue-900 tracking-tight">Dashboard Saya</h2>
+                <p class="text-gray-500 text-sm md:text-base">Kelola dan pantau semua laporan Anda</p>
             </div>
-            <button onclick="showPage('reportPage')" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-bold text-sm shadow-md">+ Lapor Baru</button>
+            <button onclick="showPage('reportPage')" class="w-full sm:w-auto bg-blue-600 text-white px-8 py-3 rounded-2xl font-black text-sm shadow-xl shadow-blue-100 hover:bg-blue-700 transition-all">+ BUAT LAPORAN</button>
         </div>
-        <div id="userReportsList" class="space-y-6"></div>
+        <div id="userReportsList" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </section>
 
-    <section id="reportPage" class="page-section py-12 px-6">
-        <div class="max-w-2xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-blue-100">
-            <div class="blue-gradient p-6 text-white text-center"><h2 class="text-2xl font-bold text-white italic tracking-wide">Kirim Pengaduan Baru</h2></div>
-            <form id="complaintForm" class="p-8 space-y-5">
-                <div class="grid md:grid-cols-2 gap-4">
-                    <input type="text" id="repName" placeholder="Nama Pelapor" required class="p-3 border rounded-xl bg-gray-50">
-                    <input type="tel" id="repPhone" placeholder="Nomor WhatsApp" required class="p-3 border rounded-xl bg-gray-50">
+    <section id="reportPage" class="page-section py-12 px-4 fade-in">
+        <div class="max-w-3xl mx-auto bg-white rounded-[3rem] shadow-2xl overflow-hidden border border-blue-100">
+            <div class="blue-gradient p-8 text-white text-center">
+                <h2 class="text-2xl md:text-3xl font-black italic tracking-tight">Detail Pengaduan Baru</h2>
+            </div>
+            <form id="complaintForm" class="p-8 md:p-12 space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-gray-400 uppercase ml-1">No. WhatsApp</label>
+                        <input type="tel" id="repPhone" required class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
+                    </div>
+                    <div class="space-y-1">
+                        <label class="text-[10px] font-black text-gray-400 uppercase ml-1">Kategori Fasilitas</label>
+                        <select id="category" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none">
+                            <option>Jalanan Rusak</option><option>Penerangan Jalan</option><option>Kebersihan/Sampah</option><option>Drainase & Banjir</option>
+                        </select>
+                    </div>
                 </div>
-                <input type="text" id="repAddress" placeholder="Lokasi Fasilitas Bermasalah" required class="w-full p-3 border rounded-xl bg-gray-50">
-                <select id="category" class="w-full p-3 border rounded-xl bg-gray-50">
-                    <option>Jalanan Rusak</option><option>Penerangan Padam</option><option>Masalah Sampah</option><option>Drainase / Banjir</option>
-                </select>
-                <textarea id="description" rows="3" required class="w-full p-3 border rounded-xl bg-gray-50" placeholder="Jelaskan secara detail..."></textarea>
-                <div class="p-4 bg-blue-50 rounded-2xl border-2 border-dashed border-blue-200">
-                    <label class="text-[10px] font-black text-blue-600 uppercase mb-2 block tracking-widest">Unggah Foto Kejadian</label>
-                    <input type="file" id="reportImage" accept="image/*" required class="w-full text-xs">
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-gray-400 uppercase ml-1">Alamat/Lokasi Kejadian</label>
+                    <input type="text" id="repAddress" required class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
-                <button type="submit" class="w-full blue-gradient text-white py-4 rounded-xl font-black shadow-lg">KIRIM ADUAN SEKARANG</button>
+                <div class="space-y-1">
+                    <label class="text-[10px] font-black text-gray-400 uppercase ml-1">Deskripsi Kerusakan</label>
+                    <textarea id="description" rows="4" required class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-500" placeholder="Ceritakan detail masalahnya..."></textarea>
+                </div>
+                <div class="p-6 bg-blue-50 rounded-3xl border-2 border-dashed border-blue-200 text-center">
+                    <label class="text-[10px] font-black text-blue-600 uppercase mb-3 block tracking-widest">Unggah Bukti Foto (Wajib)</label>
+                    <input type="file" id="reportImage" accept="image/*" required class="w-full text-xs text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-bold file:bg-blue-600 file:text-white">
+                </div>
+                <button type="submit" class="w-full blue-gradient text-white py-5 rounded-2xl font-black text-lg shadow-2xl shadow-blue-200">KIRIM ADUAN KE SERVER</button>
             </form>
         </div>
     </section>
 
-    <section id="loginAdminPage" class="page-section py-20 px-6">
-        <div class="max-w-sm mx-auto bg-white p-10 rounded-3xl shadow-2xl border-t-8 border-blue-900">
-            <div class="text-center mb-8"><i class="fas fa-shield-halved text-5xl text-blue-900 mb-2"></i><h2 class="text-xl font-black uppercase">Staff Petugas</h2></div>
-            <input type="text" id="adminUser" placeholder="Username" class="w-full p-4 mb-4 border rounded-xl outline-none">
-            <input type="password" id="adminPass" placeholder="Password" class="w-full p-4 mb-6 border rounded-xl outline-none">
-            <button onclick="handleAdminLogin()" class="w-full bg-blue-900 text-white py-4 rounded-xl font-bold">Login Admin</button>
+    <section id="loginAdminPage" class="page-section py-20 px-4 fade-in">
+        <div class="max-w-sm mx-auto bg-white p-10 rounded-[2.5rem] shadow-2xl border-t-8 border-blue-900 text-center">
+            <div class="mb-8">
+                <div class="w-20 h-20 bg-blue-50 text-blue-900 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h2 class="text-xl font-black uppercase tracking-tighter">Login Petugas</h2>
+            </div>
+            <div class="space-y-4">
+                <input type="text" id="adminUser" placeholder="Username" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-900">
+                <input type="password" id="adminPass" placeholder="Password" class="w-full p-4 bg-slate-50 border rounded-2xl outline-none focus:ring-2 focus:ring-blue-900">
+                <button onclick="handleAdminLogin()" class="w-full bg-blue-900 text-white py-4 rounded-2xl font-bold shadow-lg">Masuk Sistem</button>
+            </div>
         </div>
     </section>
 
-    <section id="adminDashboard" class="page-section py-10 px-6 max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-10">
-            <h1 class="text-3xl font-black text-blue-900 uppercase">Monitoring Pusat</h1>
-            <button onclick="logout()" class="bg-red-500 text-white px-6 py-2 rounded-xl font-bold">Keluar</button>
+    <section id="adminDashboard" class="page-section py-10 px-4 max-w-7xl mx-auto fade-in">
+        <div class="flex flex-col md:flex-row justify-between items-center mb-12 gap-6">
+            <div class="text-center md:text-left">
+                <h1 class="text-3xl md:text-5xl font-black text-blue-900 leading-none">MONITORING PUSAT</h1>
+                <p class="text-gray-400 font-medium mt-2">Data laporan warga terekam secara realtime</p>
+            </div>
+            <button onclick="logout()" class="w-full md:w-auto bg-red-500 text-white px-10 py-3 rounded-2xl font-black text-sm shadow-xl shadow-red-100">LOGOUT</button>
         </div>
-        <div id="adminDataList" class="grid gap-8"></div>
+        <div id="adminDataList" class="grid grid-cols-1 lg:grid-cols-2 gap-8"></div>
     </section>
 
     <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, push, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, set, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyDgaE8lc2icR4SxrpJfTi6EuPorZ73lrYQ",
-        authDomain: "sikota-4b11a.firebaseapp.com",
-        databaseURL: "https://sikota-4b11a-default-rtdb.asia-southeast1.firebasedatabase.app/", 
-        projectId: "sikota-4b11a",
-        storageBucket: "sikota-4b11a.firebasestorage.app",
-        messagingSenderId: "370962501672",
-        appId: "1:370962501672:web:58b6157e7251152c6ea51d",
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getDatabase(app);
-    const reportsRef = ref(db, 'reports');
-
-    window.reports = [];
-    window.sessionUser = sessionStorage.getItem('si_kota_active_user') || null;
-    window.isAdminActive = sessionStorage.getItem('si_kota_is_admin') === 'true';
-
-    // MENGAMBIL DATA DARI CLOUD
-    onValue(reportsRef, (snapshot) => {
-        const data = snapshot.val();
-        window.reports = data ? Object.keys(data).map(key => ({ firebaseId: key, ...data[key] })) : [];
-        updateStats();
-        updateNav();
-        updateLandingButtons(); // Tombol dipanggil setiap kali data berubah
-        
-        const activePage = document.querySelector('.page-section.active')?.id;
-        if (activePage === 'adminDashboard') renderAdminDashboard();
-        if (activePage === 'userDashboard') renderUserDashboard();
-    });
-
-    // FUNGSI NAVIGASI
-    window.showPage = function(pageId) {
-        document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
-        document.getElementById(pageId).classList.add('active');
-        updateNav();
-        updateStats();
-        updateLandingButtons();
-        if (pageId === 'adminDashboard') renderAdminDashboard();
-        if (pageId === 'userDashboard') renderUserDashboard();
-    };
-
-    // KEMBALIKAN TOMBOL YANG HILANG
-    window.updateLandingButtons = function() {
-        const btnArea = document.getElementById('mainActionButtons');
-        if (!btnArea) return;
-        if (window.sessionUser) {
-            btnArea.innerHTML = `
-                <button onclick="showPage('userDashboard')" class="bg-white text-blue-800 px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-transform">
-                    <i class="fas fa-th-large mr-2"></i> DASHBOARD SAYA
-                </button>
-                <button onclick="showPage('reportPage')" class="bg-blue-500 text-white px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-transform border border-blue-400">
-                    <i class="fas fa-edit mr-2"></i> BUAT PENGADUAN
-                </button>`;
-        } else {
-            btnArea.innerHTML = `
-                <button onclick="showPage('loginUserPage')" class="bg-white text-blue-800 px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-transform">
-                    <i class="fas fa-user-circle mr-2"></i> MASUK SEBAGAI WARGA
-                </button>`;
-        }
-    };
-
-    window.updateNav = function() {
-        const nav = document.getElementById('navButtons');
-        if (!nav) return;
-        if (window.sessionUser) {
-            nav.innerHTML = `<span class="font-bold text-blue-700 text-sm">👤 ${window.sessionUser}</span>
-                            <button onclick="logout()" class="text-red-500 font-bold text-xs ml-3"><i class="fas fa-power-off"></i></button>`;
-        } else if (window.isAdminActive) {
-            nav.innerHTML = `<span class="font-black text-red-600 text-sm">ADMIN</span>
-                            <button onclick="logout()" class="text-gray-500 font-bold text-xs ml-3">KELUAR</button>`;
-        } else {
-            nav.innerHTML = `<button onclick="showPage('loginUserPage')" class="bg-blue-600 text-white px-5 py-2 rounded-xl font-bold text-xs">Login Warga</button>`;
-        }
-    };
-
-    window.handleUserLogin = function() {
-        const n = document.getElementById('userNameLogin').value;
-        if (n && n.trim().length > 1) {
-            window.sessionUser = n;
-            sessionStorage.setItem('si_kota_active_user', n);
-            showPage('userDashboard');
-        } else alert("Masukkan Nama!");
-    };
-
-    window.handleAdminLogin = function() {
-        const u = document.getElementById('adminUser').value;
-        const p = document.getElementById('adminPass').value;
-        if (u === 'admin' && p === 'kota123') {
-            window.isAdminActive = true;
-            sessionStorage.setItem('si_kota_is_admin', 'true');
-            showPage('adminDashboard');
-        } else alert("Password Salah");
-    };
-
-    window.logout = function() {
-        sessionStorage.clear();
-        window.sessionUser = null;
-        window.isAdminActive = false;
-        showPage('landingPage');
-    };
-
-    // SUBMIT DATA KE CLOUD
-    document.getElementById('complaintForm').onsubmit = function(e) {
-        e.preventDefault();
-        const file = document.getElementById('reportImage').files[0];
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            const r = {
-                id: Date.now(),
-                owner: window.sessionUser,
-                repName: document.getElementById('repName').value,
-                phone: document.getElementById('repPhone').value,
-                address: document.getElementById('repAddress').value,
-                category: document.getElementById('category').value,
-                description: document.getElementById('description').value,
-                image: event.target.result,
-                status: 'Menunggu',
-                chat: []
-            };
-            push(reportsRef, r);
-            alert("Laporan Terkirim ke Cloud!");
-            showPage('userDashboard');
+        // CONFIG FIREBASE (REPLACE WITH YOURS)
+        const firebaseConfig = {
+            apiKey: "AIzaSyDgaE8lc2icR4SxrpJfTi6EuPorZ73lrYQ",
+            authDomain: "sikota-4b11a.firebaseapp.com",
+            databaseURL: "https://sikota-4b11a-default-rtdb.asia-southeast1.firebasedatabase.app/", 
+            projectId: "sikota-4b11a",
+            storageBucket: "sikota-4b11a.firebasestorage.app",
+            messagingSenderId: "370962501672",
+            appId: "1:370962501672:web:58b6157e7251152c6ea51d",
         };
-        reader.readAsDataURL(file);
-    };
 
-    window.renderUserDashboard = function() {
-        const list = document.getElementById('userReportsList');
-        if (!list) return;
-        const myData = window.reports.filter(r => r.owner === window.sessionUser);
-        list.innerHTML = myData.length ? '' : '<div class="text-center py-20 bg-white rounded-3xl shadow-sm text-gray-400">Anda belum memiliki riwayat laporan.</div>';
-        
-        myData.slice().reverse().forEach(r => {
-            let bCls = r.status==='Ditanggapi' ? 'bg-green-100 text-green-700' : (r.status==='Data Tidak Valid' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700');
-            list.innerHTML += `
-                <div class="bg-white rounded-3xl shadow-sm border mb-6">
-                    <div class="p-5 flex gap-4 border-b bg-gray-50/50">
-                        <img src="${r.image}" class="w-20 h-20 rounded-2xl object-cover shadow-sm">
-                        <div class="flex-1">
-                            <div class="flex justify-between items-start">
-                                <h4 class="font-black text-blue-900 uppercase text-xs tracking-tighter">${r.category}</h4>
-                                <span class="status-badge ${bCls}">${r.status}</span>
-                            </div>
-                            <p class="text-xs text-gray-500 mt-1 italic line-clamp-2">${r.description}</p>
-                        </div>
-                    </div>
-                    <div class="p-5">
-                        <p class="text-[10px] font-black text-blue-400 uppercase mb-3 tracking-widest">Ruang Obrolan Petugas</p>
-                        <div class="flex flex-col gap-2 max-h-32 overflow-y-auto mb-3 pr-2">
-                            ${(r.chat || []).map(c => `<div class="chat-bubble ${c.sender==='admin'?'admin-chat':'user-chat'}">${c.msg}</div>`).join('') || '<p class="text-[10px] text-gray-300 italic text-center">Silakan menunggu respon petugas...</p>'}
-                        </div>
-                        <div class="flex gap-2">
-                            <input type="text" id="chU-${r.firebaseId}" placeholder="Ketik pesan..." class="flex-1 bg-gray-50 border rounded-xl px-4 py-2 text-xs outline-none">
-                            <button onclick="sendChat('${r.firebaseId}', 'user')" class="bg-blue-600 text-white w-9 h-9 rounded-xl flex items-center justify-center"><i class="fas fa-paper-plane text-xs"></i></button>
-                        </div>
-                    </div>
-                </div>`;
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const reportsRef = ref(db, 'reports');
+
+        window.reports = [];
+        window.sessionUser = sessionStorage.getItem('si_kota_active_user') || null;
+        window.isAdminActive = sessionStorage.getItem('si_kota_is_admin') === 'true';
+
+        onValue(reportsRef, (snapshot) => {
+            const data = snapshot.val();
+            window.reports = data ? Object.keys(data).map(key => ({ firebaseId: key, ...data[key] })) : [];
+            updateStats(); updateNav(); updateLandingButtons();
+            
+            const activePage = document.querySelector('.page-section.active')?.id;
+            if (activePage === 'adminDashboard') renderAdminDashboard();
+            if (activePage === 'userDashboard') renderUserDashboard();
         });
-    };
 
-    window.renderAdminDashboard = function() {
-        const list = document.getElementById('adminDataList');
-        if (!list) return;
-        list.innerHTML = window.reports.length ? '' : '<p class="text-center py-20 text-gray-400">Belum ada data masuk.</p>';
-        window.reports.slice().reverse().forEach(r => {
-            let bCls = r.status==='Ditanggapi' ? 'bg-green-100 text-green-700' : (r.status==='Data Tidak Valid' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700');
-            list.innerHTML += `
-                <div class="bg-white rounded-[2rem] shadow-md border overflow-hidden grid md:grid-cols-12 mb-4">
-                    <div class="md:col-span-4"><img src="${r.image}" class="w-full h-full object-cover"></div>
-                    <div class="md:col-span-8 p-6">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="font-black text-xl">${r.repName} <span class="text-blue-500 text-xs ml-2">${r.phone}</span></h3>
-                            <span class="status-badge ${bCls}">${r.status}</span>
+        window.showPage = function(id) {
+            document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            updateNav(); updateStats(); updateLandingButtons();
+            if (id === 'adminDashboard') renderAdminDashboard();
+            if (id === 'userDashboard') renderUserDashboard();
+        };
+
+        window.updateLandingButtons = function() {
+            const btnArea = document.getElementById('mainActionButtons');
+            if (!btnArea) return;
+            if (window.sessionUser) {
+                btnArea.innerHTML = `
+                    <button onclick="showPage('userDashboard')" class="w-full sm:w-auto bg-white text-blue-800 px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-all text-sm md:text-base"><i class="fas fa-th-large mr-2"></i> DASHBOARD SAYA</button>
+                    <button onclick="showPage('reportPage')" class="w-full sm:w-auto bg-blue-500 text-white px-10 py-4 rounded-2xl font-black shadow-xl border border-blue-400 hover:scale-105 transition-all text-sm md:text-base"><i class="fas fa-edit mr-2"></i> BUAT PENGADUAN</button>`;
+            } else {
+                btnArea.innerHTML = `<button onclick="showPage('loginUserPage')" class="w-full sm:w-auto bg-white text-blue-800 px-10 py-4 rounded-2xl font-black shadow-xl hover:scale-105 transition-all text-sm md:text-base"><i class="fas fa-user-circle mr-2"></i> MASUK SEBAGAI WARGA</button>`;
+            }
+        };
+
+        window.updateNav = function() {
+            const nav = document.getElementById('navButtons');
+            if (!nav) return;
+            if (window.sessionUser) {
+                nav.innerHTML = `<div class="bg-blue-50 px-4 py-1.5 rounded-full flex items-center gap-2 border border-blue-100"><span class="font-bold text-blue-700 text-xs md:text-sm">👤 ${window.sessionUser}</span><button onclick="logout()" class="text-red-500 hover:text-red-700"><i class="fas fa-power-off"></i></button></div>`;
+            } else if (window.isAdminActive) {
+                nav.innerHTML = `<div class="bg-red-50 px-4 py-1.5 rounded-full border border-red-100"><span class="font-black text-red-600 text-xs md:text-sm">MODE ADMIN</span><button onclick="logout()" class="text-gray-400 ml-3"><i class="fas fa-sign-out-alt"></i></button></div>`;
+            } else {
+                nav.innerHTML = `<button onclick="showPage('loginUserPage')" class="bg-blue-600 text-white px-5 py-2 rounded-xl font-bold text-xs md:text-sm shadow-md shadow-blue-100 hover:bg-blue-700">LOGIN</button>`;
+            }
+        };
+
+        window.handleUserLogin = function() {
+            const n = document.getElementById('userNameLogin').value;
+            if (n && n.trim().length > 1) {
+                window.sessionUser = n;
+                sessionStorage.setItem('si_kota_active_user', n);
+                showPage('userDashboard');
+            } else alert("Nama diperlukan!");
+        };
+
+        window.handleAdminLogin = function() {
+            const u = document.getElementById('adminUser').value;
+            const p = document.getElementById('adminPass').value;
+            if (u === 'admin' && p === 'kota123') {
+                window.isAdminActive = true;
+                sessionStorage.setItem('si_kota_is_admin', 'true');
+                showPage('adminDashboard');
+            } else alert("Kredensial Salah!");
+        };
+
+        window.logout = function() { sessionStorage.clear(); window.sessionUser = null; window.isAdminActive = false; showPage('landingPage'); };
+
+        document.getElementById('complaintForm').onsubmit = function(e) {
+            e.preventDefault();
+            const file = document.getElementById('reportImage').files[0];
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const r = {
+                    id: Date.now(),
+                    owner: window.sessionUser,
+                    repName: window.sessionUser,
+                    phone: document.getElementById('repPhone').value,
+                    address: document.getElementById('repAddress').value,
+                    category: document.getElementById('category').value,
+                    description: document.getElementById('description').value,
+                    image: event.target.result,
+                    status: 'Menunggu',
+                    chat: []
+                };
+                push(reportsRef, r);
+                alert("Laporan Terkirim!");
+                showPage('userDashboard');
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.renderUserDashboard = function() {
+            const list = document.getElementById('userReportsList');
+            if (!list) return;
+            const myData = window.reports.filter(r => r.owner === window.sessionUser);
+            list.innerHTML = myData.length ? '' : '<div class="col-span-full text-center py-20 bg-white rounded-3xl shadow-sm text-gray-400">Belum ada laporan masuk.</div>';
+            
+            myData.slice().reverse().forEach(r => {
+                let bCls = r.status==='Ditanggapi' ? 'bg-green-100 text-green-700' : (r.status==='Data Tidak Valid' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700');
+                list.innerHTML += `
+                    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 overflow-hidden flex flex-col h-full">
+                        <div class="p-5 flex gap-5 bg-slate-50/50">
+                            <img src="${r.image}" class="w-20 h-20 md:w-28 md:h-28 rounded-3xl object-cover shadow-md border-2 border-white">
+                            <div class="flex-1">
+                                <div class="flex justify-between items-start mb-1">
+                                    <h4 class="font-black text-blue-900 text-xs md:text-sm uppercase tracking-tighter">${r.category}</h4>
+                                    <span class="status-badge ${bCls}">${r.status}</span>
+                                </div>
+                                <p class="text-[11px] md:text-xs text-gray-500 italic line-clamp-3 leading-relaxed">"${r.description}"</p>
+                                <p class="text-[9px] text-gray-400 mt-2"><i class="fas fa-map-marker-alt mr-1"></i> ${r.address}</p>
+                            </div>
                         </div>
-                        <p class="text-xs font-bold text-gray-400 uppercase italic mb-4">📍 ${r.address} | ${r.category}</p>
-                        <div class="bg-slate-50 rounded-2xl p-4 mb-4">
-                            <div class="flex flex-col gap-2 max-h-24 overflow-y-auto mb-2">
-                                ${(r.chat || []).map(c => `<div class="chat-bubble ${c.sender==='admin'?'admin-chat':'user-chat'}">${c.msg}</div>`).join('') || '<p class="text-center text-[10px] text-gray-300 italic">Belum ada percakapan.</p>'}
+                        <div class="p-5 flex-1 flex flex-col">
+                            <p class="text-[10px] font-black text-blue-400 uppercase mb-4 tracking-widest"><i class="fas fa-comments mr-2"></i> Obrolan Petugas</p>
+                            <div class="flex flex-col gap-2 max-h-48 overflow-y-auto mb-4 pr-2 flex-1">
+                                ${(r.chat || []).map(c => `<div class="chat-bubble ${c.sender==='admin'?'admin-chat':'user-chat'} shadow-sm">${c.msg}</div>`).join('') || '<p class="text-[10px] text-gray-300 italic text-center py-4">Silakan tunggu konfirmasi tim kami...</p>'}
                             </div>
                             <div class="flex gap-2">
-                                <input type="text" id="chA-${r.firebaseId}" placeholder="Balas..." class="flex-1 border rounded-xl px-4 py-2 text-xs outline-none">
-                                <button onclick="sendChat('${r.firebaseId}', 'admin')" class="bg-blue-900 text-white px-4 rounded-xl text-xs font-bold">Kirim</button>
+                                <input type="text" id="chU-${r.firebaseId}" placeholder="Tulis pesan..." class="flex-1 bg-slate-50 border border-slate-200 rounded-2xl px-5 py-3 text-xs outline-none focus:ring-2 focus:ring-blue-100">
+                                <button onclick="sendChat('${r.firebaseId}', 'user')" class="bg-blue-600 text-white w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-100 hover:scale-105 transition-all"><i class="fas fa-paper-plane text-sm"></i></button>
                             </div>
                         </div>
-                        <div class="flex gap-2">
-                            <button onclick="setS('${r.firebaseId}', 'Ditanggapi')" class="bg-green-600 text-white px-4 py-2 rounded-xl text-[10px] font-black">VALID</button>
-                            <button onclick="setS('${r.firebaseId}', 'Data Tidak Valid')" class="bg-orange-500 text-white px-4 py-2 rounded-xl text-[10px] font-black">TIDAK VALID</button>
-                            <button onclick="deleteR('${r.firebaseId}')" class="ml-auto text-red-400 text-xs font-bold px-2">Hapus</button>
+                    </div>`;
+            });
+        };
+
+        window.renderAdminDashboard = function() {
+            const list = document.getElementById('adminDataList');
+            if (!list) return;
+            list.innerHTML = window.reports.length ? '' : '<p class="col-span-full text-center py-20 text-gray-400 bg-white rounded-3xl shadow-sm font-bold">TIDAK ADA PENGADUAN MASUK</p>';
+            window.reports.slice().reverse().forEach(r => {
+                let bCls = r.status==='Ditanggapi' ? 'bg-green-100 text-green-700' : (r.status==='Data Tidak Valid' ? 'bg-red-100 text-red-700' : 'bg-yellow-100 text-yellow-700');
+                list.innerHTML += `
+                    <div class="bg-white rounded-[3rem] shadow-xl border border-blue-50 overflow-hidden flex flex-col xl:flex-row h-full">
+                        <div class="xl:w-2/5 h-64 xl:h-auto"><img src="${r.image}" class="w-full h-full object-cover shadow-inner"></div>
+                        <div class="flex-1 p-6 md:p-8 flex flex-col">
+                            <div class="flex justify-between items-start mb-4">
+                                <div>
+                                    <h3 class="font-black text-xl md:text-2xl text-slate-800 leading-none">${r.repName}</h3>
+                                    <p class="text-blue-600 text-xs md:text-sm font-bold mt-1 tracking-tight"><i class="fab fa-whatsapp mr-1"></i> ${r.phone}</p>
+                                </div>
+                                <span class="status-badge ${bCls}">${r.status}</span>
+                            </div>
+                            <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">📍 ${r.address} | ${r.category}</p>
+                            <p class="text-slate-600 text-sm italic mb-6 leading-relaxed border-l-4 border-slate-100 pl-4">"${r.description}"</p>
+                            
+                            <div class="bg-slate-50 rounded-[2rem] p-5 mb-6 flex-1 border border-slate-100">
+                                <p class="text-[10px] font-black text-blue-300 uppercase mb-4 tracking-widest text-center">Saluran Komunikasi Warga</p>
+                                <div class="flex flex-col gap-2 max-h-40 overflow-y-auto mb-4 pr-1">
+                                    ${(r.chat || []).map(c => `<div class="chat-bubble ${c.sender==='admin'?'admin-chat':'user-chat'}">${c.msg}</div>`).join('') || '<p class="text-center text-[10px] text-slate-300 italic py-4">Belum ada diskusi.</p>'}
+                                </div>
+                                <div class="flex gap-2">
+                                    <input type="text" id="chA-${r.firebaseId}" placeholder="Instruksi / Respon..." class="flex-1 border border-slate-200 rounded-2xl px-5 py-3 text-xs outline-none focus:ring-2 focus:ring-blue-100">
+                                    <button onclick="sendChat('${r.firebaseId}', 'admin')" class="bg-blue-900 text-white px-6 rounded-2xl text-[10px] font-black hover:bg-black transition-all">KIRIM</button>
+                                </div>
+                            </div>
+
+                            <div class="flex gap-3">
+                                <button onclick="setS('${r.firebaseId}', 'Ditanggapi')" class="flex-1 bg-green-600 text-white py-3 rounded-2xl font-black text-[10px] shadow-lg shadow-green-100 hover:scale-95 transition-all">VALID</button>
+                                <button onclick="setS('${r.firebaseId}', 'Data Tidak Valid')" class="flex-1 bg-orange-500 text-white py-3 rounded-2xl font-black text-[10px] shadow-lg shadow-orange-100 hover:scale-95 transition-all">TIDAK VALID</button>
+                                <button onclick="deleteR('${r.firebaseId}')" class="px-4 text-red-300 hover:text-red-500 transition-colors"><i class="fas fa-trash-alt"></i></button>
+                            </div>
                         </div>
-                    </div>
-                </div>`;
-        });
-    };
+                    </div>`;
+            });
+        };
 
-    window.sendChat = function(firebaseId, sender) {
-        const input = document.getElementById(`ch${sender==='admin'?'A':'U'}-${firebaseId}`);
-        if(!input || !input.value.trim()) return;
-        const i = window.reports.findIndex(r => r.firebaseId === firebaseId);
-        const currentChat = window.reports[i].chat || [];
-        currentChat.push({ sender: sender, msg: input.value });
-        set(ref(db, `reports/${firebaseId}/chat`), currentChat);
-        input.value = '';
-    };
+        window.sendChat = (fbId, s) => {
+            const i = document.getElementById(`ch${s==='admin'?'A':'U'}-${fbId}`);
+            if(!i.value.trim()) return;
+            const idx = window.reports.findIndex(r => r.firebaseId === fbId);
+            const chat = [...(window.reports[idx].chat || []), { sender: s, msg: i.value }];
+            set(ref(db, `reports/${fbId}/chat`), chat);
+            i.value = '';
+        };
 
-    window.setS = function(firebaseId, s) {
-        set(ref(db, `reports/${firebaseId}/status`), s);
-    };
+        window.setS = (fbId, s) => set(ref(db, `reports/${fbId}/status`), s);
+        window.deleteR = (fbId) => confirm("Hapus?") && remove(ref(db, `reports/${fbId}`));
+        window.updateStats = () => {
+            if (!document.getElementById('statTotal')) return;
+            document.getElementById('statTotal').innerText = window.reports.length;
+            document.getElementById('statWait').innerText = window.reports.filter(r => r.status === 'Menunggu').length;
+            document.getElementById('statDone').innerText = window.reports.filter(r => r.status === 'Ditanggapi').length;
+        };
 
-    window.deleteR = function(firebaseId) {
-        if(confirm("Hapus laporan?")) remove(ref(db, `reports/${firebaseId}`));
-    };
-
-    window.updateStats = function() {
-        if (!document.getElementById('statTotal')) return;
-        document.getElementById('statTotal').innerText = window.reports.length;
-        document.getElementById('statWait').innerText = window.reports.filter(r => r.status === 'Menunggu').length;
-        document.getElementById('statDone').innerText = window.reports.filter(r => r.status === 'Ditanggapi').length;
-    };
-
-    // INI YANG PALING PENTING: JALANKAN SAAT PERTAMA KALI LOAD
-    updateLandingButtons();
-    updateNav();
-</script>
+        updateLandingButtons(); updateNav();
+    </script>
 </body>
 </html>
