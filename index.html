@@ -125,7 +125,7 @@
     const firebaseConfig = {
         apiKey: "AIzaSyDgaE8lc2icR4SxrpJfTi6EuPorZ73lrYQ",
         authDomain: "sikota-4b11a.firebaseapp.com",
-        databaseURL: "https://console.firebase.google.com/project/sikota-4b11a/database/sikota-4b11a-default-rtdb/data/~2F", 
+        databaseURL: "https://sikota-4b11a-default-rtdb.asia-southeast1.firebasedatabase.app/", 
         projectId: "sikota-4b11a",
         storageBucket: "sikota-4b11a.firebasestorage.app",
         messagingSenderId: "370962501672",
@@ -140,18 +140,20 @@
     window.sessionUser = sessionStorage.getItem('si_kota_active_user') || null;
     window.isAdminActive = sessionStorage.getItem('si_kota_is_admin') === 'true';
 
+    // MENGAMBIL DATA DARI CLOUD
     onValue(reportsRef, (snapshot) => {
         const data = snapshot.val();
         window.reports = data ? Object.keys(data).map(key => ({ firebaseId: key, ...data[key] })) : [];
         updateStats();
         updateNav();
-        updateLandingButtons();
+        updateLandingButtons(); // Tombol dipanggil setiap kali data berubah
         
         const activePage = document.querySelector('.page-section.active')?.id;
         if (activePage === 'adminDashboard') renderAdminDashboard();
         if (activePage === 'userDashboard') renderUserDashboard();
     });
 
+    // FUNGSI NAVIGASI
     window.showPage = function(pageId) {
         document.querySelectorAll('.page-section').forEach(p => p.classList.remove('active'));
         document.getElementById(pageId).classList.add('active');
@@ -162,6 +164,7 @@
         if (pageId === 'userDashboard') renderUserDashboard();
     };
 
+    // KEMBALIKAN TOMBOL YANG HILANG
     window.updateLandingButtons = function() {
         const btnArea = document.getElementById('mainActionButtons');
         if (!btnArea) return;
@@ -221,6 +224,7 @@
         showPage('landingPage');
     };
 
+    // SUBMIT DATA KE CLOUD
     document.getElementById('complaintForm').onsubmit = function(e) {
         e.preventDefault();
         const file = document.getElementById('reportImage').files[0];
@@ -338,10 +342,9 @@
         document.getElementById('statDone').innerText = window.reports.filter(r => r.status === 'Ditanggapi').length;
     };
 
-    // Jalankan pertama kali saat load
+    // INI YANG PALING PENTING: JALANKAN SAAT PERTAMA KALI LOAD
     updateLandingButtons();
     updateNav();
 </script>
 </body>
 </html>
-
